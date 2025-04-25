@@ -24,7 +24,7 @@ public class Questao {
     private String topico;
 
     @Enumerated(EnumType.STRING)
-    private NivelDificuldade nivel;
+    private NivelDificuldade dificuldade;
 
     @Enumerated(EnumType.STRING)
     private TipoQuestao tipo;
