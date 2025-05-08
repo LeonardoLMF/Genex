@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class CadastroQuestaoDTO {
@@ -24,4 +26,6 @@ public class CadastroQuestaoDTO {
 
     @NotNull(message = "O tipo da questão é obrigatorio.")
     private TipoQuestao tipo;
+
+    private List<@NotBlank(message = "Alternativa não pode ser vazia") String> alternativas;
 }
