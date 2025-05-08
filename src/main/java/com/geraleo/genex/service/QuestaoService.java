@@ -5,7 +5,10 @@ import com.geraleo.genex.dto.CadastroQuestaoDTO;
 import com.geraleo.genex.dto.QuestaoRespostaDTO;
 import com.geraleo.genex.repository.QuestaoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -46,5 +49,11 @@ public class QuestaoService {
                 .stream()
                 .map(this::converterParaDTO)
                 .toList();
+    }
+
+    public QuestaoRespostaDTO buscarPorId(Long id){
+        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Questão não encontrada"));
+
+        return converterParaDTO(questao);
     }
 }

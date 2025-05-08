@@ -32,4 +32,9 @@ public class QuestaoController {
     public ResponseEntity<List<QuestaoRespostaDTO>> listarTodas(){
         return ResponseEntity.ok(questaoService.listarTodas());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuestaoRespostaDTO> buscarPeloId(@PathVariable Long id){
+        return ResponseEntity.ok(questaoService.buscarPorId(id));
+    }
 }
