@@ -2,6 +2,7 @@ package com.geraleo.genex.service;
 
 import com.geraleo.genex.domain.Questao;
 import com.geraleo.genex.dto.CadastroQuestaoDTO;
+import com.geraleo.genex.dto.QuestaoRespostaDTO;
 import com.geraleo.genex.repository.QuestaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,23 @@ public class QuestaoService {
         return questaoRepository.save(questao);
     }
 
+    private QuestaoRespostaDTO converterParaDTO(Questao questao) {
+        return new QuestaoRespostaDTO(
+                questao.getId(),
+                questao.getEnunciado(),
+                questao.getTopico(),
+                questao.getDificuldade(),
+                questao.getTipo(),
+                questao.getAlternativas(),
+                questao.getRespostaCorreta()
+        );
+    }
+
     //metodo para listar todas as questoes
-    public List<Questao> listarTodas(){
-        return questaoRepository.findAll();
+    public List<QuestaoRespostaDTO> listarTodas(){
+        return questaoRepository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 }

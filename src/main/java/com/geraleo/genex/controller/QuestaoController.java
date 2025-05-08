@@ -2,6 +2,7 @@ package com.geraleo.genex.controller;
 
 import com.geraleo.genex.domain.Questao;
 import com.geraleo.genex.dto.CadastroQuestaoDTO;
+import com.geraleo.genex.dto.QuestaoRespostaDTO;
 import com.geraleo.genex.repository.QuestaoRepository;
 import com.geraleo.genex.service.QuestaoService;
 import jakarta.validation.Valid;
@@ -28,8 +29,7 @@ public class QuestaoController {
 
     //Endpoint GET para listar todas as questoes
     @GetMapping
-    public ResponseEntity<List<Questao>> listarTodas(){
-        List<Questao> questoes = questaoService.listarTodas();
-        return ResponseEntity.ok(questoes);
+    public ResponseEntity<List<QuestaoRespostaDTO>> listarTodas(){
+        return ResponseEntity.ok(questaoService.listarTodas());
     }
 }
