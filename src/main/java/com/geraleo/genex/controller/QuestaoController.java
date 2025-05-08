@@ -2,15 +2,16 @@ package com.geraleo.genex.controller;
 
 import com.geraleo.genex.domain.Questao;
 import com.geraleo.genex.dto.CadastroQuestaoDTO;
+import com.geraleo.genex.repository.QuestaoRepository;
 import com.geraleo.genex.service.QuestaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/questoes")
@@ -23,5 +24,12 @@ public class QuestaoController {
     public ResponseEntity<Questao> cadastrar(@RequestBody CadastroQuestaoDTO dto){
         Questao novaQuestao = questaoService.cadastrar(dto);
         return ResponseEntity.ok(novaQuestao);
+    }
+
+    //Endpoint GET para listar todas as questoes
+    @GetMapping
+    public ResponseEntity<List<Questao>> listarTodas(){
+        List<Questao> questoes = questaoService.listarTodas();
+        return ResponseEntity.ok(questoes);
     }
 }

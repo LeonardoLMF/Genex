@@ -6,6 +6,8 @@ import com.geraleo.genex.repository.QuestaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class QuestaoService {
@@ -23,5 +25,10 @@ public class QuestaoService {
                 .build();
 
         return questaoRepository.save(questao);
+    }
+
+    //metodo para listar todas as questoes
+    public List<Questao> listarTodas(){
+        return questaoRepository.findAll();
     }
 }
