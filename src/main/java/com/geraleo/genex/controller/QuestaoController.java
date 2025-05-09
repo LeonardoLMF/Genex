@@ -44,4 +44,12 @@ public class QuestaoController {
         QuestaoRespostaDTO atualizada = questaoService.atualizar(id, dto);
         return ResponseEntity.ok(atualizada);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        questaoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

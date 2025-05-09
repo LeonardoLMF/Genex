@@ -74,4 +74,10 @@ public class QuestaoService {
 
         return converterParaDTO(questaoExistente);
     }
+
+    public void deletar(Long id){
+        Questao questao = questaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Questão nao encontrada"));
+        questaoRepository.delete(questao);
+    }
 }
+
