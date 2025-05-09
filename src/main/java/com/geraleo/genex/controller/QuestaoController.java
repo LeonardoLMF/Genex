@@ -33,8 +33,15 @@ public class QuestaoController {
         return ResponseEntity.ok(questaoService.listarTodas());
     }
 
+    //Endpoint GET para buscar a questão pelo id
     @GetMapping("/{id}")
     public ResponseEntity<QuestaoRespostaDTO> buscarPeloId(@PathVariable Long id){
         return ResponseEntity.ok(questaoService.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<QuestaoRespostaDTO> atualizar(@PathVariable Long id, @RequestBody @Valid CadastroQuestaoDTO dto){
+        QuestaoRespostaDTO atualizada = questaoService.atualizar(id, dto);
+        return ResponseEntity.ok(atualizada);
     }
 }

@@ -51,9 +51,27 @@ public class QuestaoService {
                 .toList();
     }
 
+
+    // find by id, procura a questão pelo ID
     public QuestaoRespostaDTO buscarPorId(Long id){
         Questao questao = questaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Questão não encontrada"));
 
         return converterParaDTO(questao);
+    }
+
+    //atualiza a os campos da questão pelo ID
+    public QuestaoRespostaDTO atualizar(Long id, CadastroQuestaoDTO dto){
+        Questao questaoExistente = questaoRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Questao nao encontrada"));
+
+        questaoExistente.setEnunciado(dto.getEnunciado());
+        questaoExistente.setTopico(dto.getTopico());
+        questaoExistente.setDificuldade(dto.getDificuldade());
+        questaoExistente.setTipo(dto.getTipo());
+        questaoExistente.setAlternativas(dto.getAlternativas());
+        questaoExistente.setRespostaCorreta(dto.getResposta());
+
+        questaoRepository.save(questaoExistente);
+
+        return converterParaDTO(questaoExistente);
     }
 }
