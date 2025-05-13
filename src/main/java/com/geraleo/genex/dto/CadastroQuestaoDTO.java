@@ -15,10 +15,10 @@ import java.util.List;
 public class CadastroQuestaoDTO {
 
     @NotBlank(message = "O enunciado da questão é obrigatório.")
-    @Size(max = 600, message = "O Enunciado deve ter no máximo 600 caracteres.")
+    @Size(min = 10, max = 600, message = "O Enunciado deve ter no máximo 600 caracteres.")
     private String enunciado;
 
-    @NotBlank(message = "A respostá da questão é obrigatória.")
+    @NotBlank(message = "A respostá correta da questão é obrigatória.")
     private String resposta;
 
     @NotBlank(message = "O tópico da questão é obrigatório.")
