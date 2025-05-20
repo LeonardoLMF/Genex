@@ -136,4 +136,42 @@ public class QuestaoServiceTest {
         assertThrows(ResponseStatusException.class, () -> questaoService.deletar(99L));
         verify(questaoRepository, times(1)).findById(99L);
     }
+    @Test
+    void AtualizarQuestaoComSucesso() {
+        Long id = 1L;
+
+        CadastroQuestaoDTO dto = new CadastroQuestaoDTO();
+        dto.setEnunciado("Novo enunciado");
+        dto.setResposta("Nova resposta");
+        dto.setTopico("Java");
+        dto.setDificuldade(NivelDificuldade.DIFICIL);
+        dto.setTipo(TipoQuestao.MULTIPLA_ESCOLHA);
+        dto.setAlternativas(List.of("A", "B", "C"));
+
+        Questao questaoExistente = Questao.builder()
+                .id(id)
+                .enunciado("Antigo enunciado")
+                .respostaCorreta("Antiga resposta")
+                .topico("Antigo topico")
+                .dificuldade(NivelDificuldade.MEDIO)
+                .tipo(TipoQuestao.DISCURSIVA)
+                .alternativas(List.of("X", "Y", "Z"))
+                .build();
+
+        when(questaoRepository.findById(id)).thenReturn(Optional.of(questaoExistente));
+        when(questaoRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        QuestaoRespostaDTO atualizado = questaoService.atualizar(id, dto);
+
+        assertEquals("Novo enunciado", atualizado.getEnunciado());
+        assertEquals("Nova resposta", atualizado.getRespostaCorreta());
+        assertEquals("Java", atualizado.getTopico());
+        assertEquals(NivelDificuldade.DIFICIL, atualizado.getDificuldade());
+        assertEquals(TipoQuestao.MULTIPLA_ESCOLHA, atualizado.getTipo());
+        assertEquals(3, atualizado.getAlternativas().size());
+
+        verify(questaoRepository, times(1)).findById(id);
+        verify(questaoRepository, times(1)).save(any());
+    }
+
 }
