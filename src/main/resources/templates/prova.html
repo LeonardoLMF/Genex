@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prova Gerada</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .questao { margin-bottom: 20px; }
+        .questao strong { display: block; margin-bottom: 5px; }
+        .alternativas li { margin: 4px 0; list-style: upper-alpha; }
+    </style>
+</head>
+<body>
+
+<h1>Prova Gerada Automaticamente</h1>
+
+<div th:each="q, iterStat : ${questoes}" class="questao">
+    <strong th:text="${iterStat.index + 1} + '. ' + ${q.enunciado}"></strong>
+
+    <ul class="alternativas" th:if="${q.alternativas != null}">
+        <li th:each="alt : ${q.alternativas}" th:text="${alt}"></li>
+    </ul>
+</div>
+
+
+</body>
+</html>
