@@ -2,6 +2,7 @@ package com.geraleo.genex.controller;
 
 import com.geraleo.genex.domain.NivelDificuldade;
 import com.geraleo.genex.domain.TipoQuestao;
+import com.geraleo.genex.dto.GabaritoDTO;
 import com.geraleo.genex.dto.GerarProvaDTO;
 import com.geraleo.genex.dto.ProvaGeradaDTO;
 import com.geraleo.genex.service.ProvaService;
@@ -46,7 +47,29 @@ public class ProvaController {
         return "prova";
     }
 
+    @GetMapping("/gabarito")
+    public String visualizarGabarito(@RequestParam String topico,
+                                     @RequestParam NivelDificuldade dificuldade,
+                                     @RequestParam TipoQuestao tipo,
+                                     @RequestParam int quantidade,
+                                     Model model) {
 
+        GerarProvaDTO dto = new GerarProvaDTO();
+        dto.setTopico(topico);
+        dto.setDificuldade(dificuldade);
+        dto.setTipo(tipo);
+        dto.setQuantidade(quantidade);
+
+        List<GabaritoDTO> gabarito = provaService.gerarGabarito(dto);
+
+        model.addAttribute("questoes", gabarito);
+        return "gabarito";
+    }
 
 
 }
+
+
+
+
+

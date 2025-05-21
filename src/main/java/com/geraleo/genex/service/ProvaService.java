@@ -1,6 +1,7 @@
 package com.geraleo.genex.service;
 
 import com.geraleo.genex.domain.Questao;
+import com.geraleo.genex.dto.GabaritoDTO;
 import com.geraleo.genex.dto.GerarProvaDTO;
 import com.geraleo.genex.dto.ProvaGeradaDTO;
 import com.geraleo.genex.repository.QuestaoRepository;
@@ -35,6 +36,19 @@ public class ProvaService {
                         q.getTipo(),
                         q.getAlternativas()
                 )).toList();
+    }
+
+    public List<GabaritoDTO> gerarGabarito(GerarProvaDTO dto) {
+        List<Questao> questoes = questaoRepository.findByTopicoAndDificuldadeAndTipo(
+                dto.getTopico(), dto.getDificuldade(), dto.getTipo()
+        );
+
+        Collections.shuffle(questoes);
+
+        return questoes.stream()
+                .limit(dto.getQuantidade())
+                .map(q -> new GabaritoDTO(q.getEnunciado(), q.getRespostaCorreta()))
+                .toList();
     }
 
 
