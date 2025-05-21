@@ -1,9 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
 .questao {
     margin-bottom: 2rem;
     padding: 1rem;
     border-left: 4px solid #0d6efd;
     background-color: #f8f9fa;
     border-radius: 0.5rem;
+}
+
+.questao.gabarito {
+    border-left-color: #198754;
+    background-color: #f1fdf4;
 }
 
 .alternativas li {

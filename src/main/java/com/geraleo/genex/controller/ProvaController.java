@@ -1,6 +1,7 @@
 package com.geraleo.genex.controller;
 
 import com.geraleo.genex.domain.NivelDificuldade;
+import com.geraleo.genex.domain.Prova;
 import com.geraleo.genex.domain.TipoQuestao;
 import com.geraleo.genex.dto.GabaritoDTO;
 import com.geraleo.genex.dto.GerarProvaDTO;
@@ -63,6 +64,28 @@ public class ProvaController {
         List<GabaritoDTO> gabarito = provaService.gerarGabarito(dto);
 
         model.addAttribute("questoes", gabarito);
+        return "gabarito";
+    }
+
+    @PostMapping("/salvar")
+    public ResponseEntity<Long> gerarEGuardar(@RequestBody @Valid GerarProvaDTO dto) {
+        Long id = provaService.gerarEGuardarProva(dto);
+        return ResponseEntity.ok(id);
+    }
+
+    @GetMapping("/{id}")
+    public String visualizarProvaSalva(@PathVariable Long id, Model model) {
+        Prova prova = provaService.buscarProvaPorId(id);
+        model.addAttribute("prova", prova);
+        model.addAttribute("questoes", prova.getQuestoes());
+        return "prova";
+    }
+
+    @GetMapping("/{id}/gabarito")
+    public String visualizarGabaritoSalvo(@PathVariable Long id, Model model) {
+        Prova prova = provaService.buscarProvaPorId(id);
+        model.addAttribute("prova", prova);
+        model.addAttribute("questoes", prova.getQuestoes());
         return "gabarito";
     }
 
