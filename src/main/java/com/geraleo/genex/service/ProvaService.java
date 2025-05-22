@@ -95,6 +95,9 @@ public class ProvaService {
                 .orElseThrow(() -> new RuntimeException("Prova não encontrada com ID: " + id));
     }
 
+    public List<Prova> listarTodasAsProvas() {
+        return provaRepository.findAll();
+    }
 
 
 }

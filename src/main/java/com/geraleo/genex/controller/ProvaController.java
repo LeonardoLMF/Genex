@@ -1,7 +1,6 @@
 package com.geraleo.genex.controller;
 
 import com.geraleo.genex.domain.NivelDificuldade;
-import com.geraleo.genex.domain.Prova;
 import com.geraleo.genex.domain.TipoQuestao;
 import com.geraleo.genex.dto.GabaritoDTO;
 import com.geraleo.genex.dto.GerarProvaDTO;
@@ -10,13 +9,11 @@ import com.geraleo.genex.service.ProvaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/provas")
 @RequiredArgsConstructor
 public class ProvaController {
@@ -24,17 +21,16 @@ public class ProvaController {
     private final ProvaService provaService;
 
     @PostMapping
-    public ResponseEntity<List<ProvaGeradaDTO>> gerarProva(@RequestBody @Valid GerarProvaDTO dto){
+    public ResponseEntity<List<ProvaGeradaDTO>> gerarProva(@RequestBody @Valid GerarProvaDTO dto) {
         List<ProvaGeradaDTO> prova = provaService.gerarProva(dto);
         return ResponseEntity.ok(prova);
     }
 
     @GetMapping("/visualizar")
-    public String visualizarProva(@RequestParam String topico,
-                                  @RequestParam NivelDificuldade dificuldade,
-                                  @RequestParam TipoQuestao tipo,
-                                  @RequestParam int quantidade,
-                                  Model model) {
+    public ResponseEntity<List<ProvaGeradaDTO>> visualizarProva(@RequestParam String topico,
+                                                                @RequestParam NivelDificuldade dificuldade,
+                                                                @RequestParam TipoQuestao tipo,
+                                                                @RequestParam int quantidade) {
 
         GerarProvaDTO dto = new GerarProvaDTO();
         dto.setTopico(topico);
@@ -43,17 +39,14 @@ public class ProvaController {
         dto.setQuantidade(quantidade);
 
         List<ProvaGeradaDTO> questoes = provaService.gerarProva(dto);
-
-        model.addAttribute("questoes", questoes);
-        return "prova";
+        return ResponseEntity.ok(questoes);
     }
 
     @GetMapping("/gabarito")
-    public String visualizarGabarito(@RequestParam String topico,
-                                     @RequestParam NivelDificuldade dificuldade,
-                                     @RequestParam TipoQuestao tipo,
-                                     @RequestParam int quantidade,
-                                     Model model) {
+    public ResponseEntity<List<GabaritoDTO>> visualizarGabarito(@RequestParam String topico,
+                                                                @RequestParam NivelDificuldade dificuldade,
+                                                                @RequestParam TipoQuestao tipo,
+                                                                @RequestParam int quantidade) {
 
         GerarProvaDTO dto = new GerarProvaDTO();
         dto.setTopico(topico);
@@ -62,9 +55,7 @@ public class ProvaController {
         dto.setQuantidade(quantidade);
 
         List<GabaritoDTO> gabarito = provaService.gerarGabarito(dto);
-
-        model.addAttribute("questoes", gabarito);
-        return "gabarito";
+        return ResponseEntity.ok(gabarito);
     }
 
     @PostMapping("/salvar")
@@ -72,27 +63,4 @@ public class ProvaController {
         Long id = provaService.gerarEGuardarProva(dto);
         return ResponseEntity.ok(id);
     }
-
-    @GetMapping("/{id}")
-    public String visualizarProvaSalva(@PathVariable Long id, Model model) {
-        Prova prova = provaService.buscarProvaPorId(id);
-        model.addAttribute("prova", prova);
-        model.addAttribute("questoes", prova.getQuestoes());
-        return "prova";
-    }
-
-    @GetMapping("/{id}/gabarito")
-    public String visualizarGabaritoSalvo(@PathVariable Long id, Model model) {
-        Prova prova = provaService.buscarProvaPorId(id);
-        model.addAttribute("prova", prova);
-        model.addAttribute("questoes", prova.getQuestoes());
-        return "gabarito";
-    }
-
-
 }
-
-
-
-
-
